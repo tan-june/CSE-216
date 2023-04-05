@@ -62,7 +62,13 @@ public class RadialGraph extends Shape {
 
         for (Point point : PointSort) {
             sb.append("; ");
-            sb.append("(").append(point.name).append(", ").append(point.getX()).append(", ").append(point.getY()).append(")");
+            sb.append("(");
+            sb.append(point.name);
+            sb.append(", ");
+            sb.append(point.getX());
+            sb.append(", ");
+            sb.append(point.getY());
+            sb.append(")");
         }
         sb.append("]");
 

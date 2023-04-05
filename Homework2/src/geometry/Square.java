@@ -22,7 +22,7 @@ public class Square extends Shape {
         double DistanceAtoC = a.distance(c);
         double DistanceBtoD = b.distance(d);
         if (DistanceAtoB != DistanceBtoC || DistanceAtoB != DistanceCtoD || DistanceAtoB != DistanceDtoA || DistanceAtoC != DistanceBtoD) {
-            throw new NullPointerException("Input Given is not A Square!");
+            throw new NullPointerException("Provided Input is not a Square!");
         }
         this.a = a;
         this.b = b;
@@ -79,13 +79,20 @@ public class Square extends Shape {
         PointSort.sort((p1, p2) -> {
             double angle1 = Math.atan2(-p1.getY(), -p1.getX());
             double angle2 = Math.atan2(-p2.getY(), -p2.getX());
-            return Double.compare(angle1, angle2);
+            int compare = Double.compare(angle1, angle2);
+            return compare;
         });
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < PointSort.size(); i++) {
-            sb.append("(").append(PointSort.get(i).name).append(", ").append(PointSort.get(i).getX()).append(", ").append(PointSort.get(i).getY()).append(")");
-
-            if (i < PointSort.size()-1) {
+            Point point = PointSort.get(i);
+            sb.append("(");
+            sb.append(point.name);
+            sb.append(", ");
+            sb.append(point.getX());
+            sb.append(", ");
+            sb.append(point.getY());
+            sb.append(")");
+            if (i < PointSort.size() - 1) {
                 sb.append("; ");
             }
         }
@@ -94,39 +101,38 @@ public class Square extends Shape {
     }
 
     public static void main(String... args) {
-        Point east = new Point("East", 1, 1);
-        Point west = new Point("West", -1, 1);
-        Point north = new Point("North", -1, -1);
-        Point south = new Point("South", 1, -1);
+        Point east = new Point("A", 10, 10);
+        Point west = new Point("B", -10, 10);
+        Point north = new Point("C", -10, -10);
+        Point south = new Point("D", 10, -10);
         Point toofarsouth = new Point("south", 0, -2);
         //east -> north -> west -> south
 
         System.out.println("Square Testing");
 
         //Print Square
-        Shape lonely = new Square(north, south, east, west);
+        Shape lonely = new Square(east, west, north, south);
         System.out.println(lonely);
         System.out.println(lonely.center());
 
         System.out.println("\n" + "Translation Tests");
-        System.out.println(lonely);
-        lonely = lonely.translateBy(50,50);
-        System.out.println(lonely);
-        lonely = lonely.translateBy(-50,-50);
-        System.out.println(lonely);
+        System.out.println("Original: " + lonely);
+        lonely = lonely.translateBy(10,10);
+        System.out.println("          " + lonely);
+        lonely = lonely.translateBy(-10,-10);
+        System.out.println("          " + lonely);
 
         //Rotation Test
         System.out.println("\n" + "Rotate Tests");
         System.out.println("Original: " + lonely);
         lonely = lonely.rotateBy(90);
-        System.out.println(lonely);
+        System.out.println("          " + lonely);
         lonely = lonely.rotateBy(90);
-        System.out.println(lonely);
+        System.out.println("          " + lonely);
         lonely = lonely.rotateBy(90);
-        System.out.println(lonely);
+        System.out.println("          " + lonely);
         lonely = lonely.rotateBy(90);
-        System.out.println(lonely);
-        System.out.println("New Center:" + lonely.center());
+        System.out.println("          " + lonely);
 
         System.out.println("\n" + "Illegal Argument Exceptions");
         Shape nope = new Square(north, toofarsouth, east, west);

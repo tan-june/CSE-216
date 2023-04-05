@@ -63,6 +63,4 @@ public class Point {
         double newY = y + y_translate;
         return new Point(name, newX, newY);
     }
-
-
 }
