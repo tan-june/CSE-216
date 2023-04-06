@@ -72,7 +72,7 @@ public class RadialGraph extends Shape {
             double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
             double angle2 = Math.toDegrees(Math.atan2(p2.getY() - centerY, p2.getX() - centerX));
             if (angle1 < 0) {
-                angle1 += 359.9;
+                angle1 += 360.0;
             }
             if (angle2 < 0) {
                 angle2 += 360;
@@ -82,9 +82,13 @@ public class RadialGraph extends Shape {
 
         StringBuilder sb = new StringBuilder("[");
         sb.append(center.toString());
-        for (Point p : points) {
-            sb.append("; ").append(p.toString());
-        }
+           for (int i = 0; i < points.size(); i++) {
+           sb.append("; ");
+           Point point = points.get(i);
+           sb.append(String.format("(%s, %.2f, %.2f)", point.name, point.x, point.y));
+
+
+       }
         sb.append("]");
 
         translateBy(centerX, centerY);
@@ -115,7 +119,11 @@ public class RadialGraph extends Shape {
         }
 
         for (int i = 0; i < this.neighbors.size(); i++) {
-            if (!(this.neighbors.get(i).equals(object.neighbors.get(i)))) {
+            double threshold = 0.000001;
+            if ((Math.abs((this.neighbors.get(i).getX()) - (object.neighbors.get(i).getX())) > threshold) || (Math.abs((this.neighbors.get(i).getY()) - (object.neighbors.get(i).getY())) > threshold)) {
+//                System.out.println(this.neighbors.get(i));
+//                System.out.println(object.neighbors.get(i));
+
                 return false;
             }
         }
@@ -207,6 +215,8 @@ public class RadialGraph extends Shape {
         System.out.println("Rotate   :   " + test1);
         test1 = test1.rotateBy(-90);
         System.out.println("Rotate   :   " + test1);
+        test1 = test1.translateBy(-90,-90);
+        System.out.println("Translate:   " + test1);
         System.out.println();
 
         System.out.println("\n" + "Illegal Argument Exceptions");

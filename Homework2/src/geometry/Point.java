@@ -21,9 +21,7 @@ public class Point {
 
     @Override
     public String toString() {
-        double x1 = Math.round(x * 100.0) / 100.0;
-        double y1 = Math.round(y * 100.0) / 100.0;
-        return new StringJoiner(", ", "(", ")").add(name).add(Double.toString(x1)).add(Double.toString(y1)).toString();
+        return new StringJoiner(", ", "(", ")").add(name).add(Double.toString(x)).add(Double.toString(y)).toString();
     }
 
 

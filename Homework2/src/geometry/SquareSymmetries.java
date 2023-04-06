@@ -5,14 +5,13 @@ import java.util.*;
 public class SquareSymmetries implements Symmetries<Square> {
     @Override
     public boolean areSymmetric(Square s1, Square s2) {
-        double s1CenterX = s1.center.getX();
-        double s1CenterY = s1.center.getY();
-        double s2CenterX = s2.center.getX();
-        double s2CenterY = s2.center.getY();
-        double differenceX = s1CenterX-s2CenterX;
-        double differenceY = s1CenterY-s2CenterY;
-
-        return (differenceX == differenceY);
+        if (Math.abs(s1.center().getX() - s2.center().getX()) > 0.000001) {
+            return false;
+        }
+        if (Math.abs(s1.center().getY() - s2.center().getY()) > 0.000001) {
+            return false;
+        }
+        return false;
     }
 
     @Override
@@ -23,23 +22,23 @@ public class SquareSymmetries implements Symmetries<Square> {
         double storedCenterX = storedCenter.getX();
         double storedCenterY= storedCenter.getY();
 
-        Square rotate0 = square.rotateBy(0);
-        symmetries.add(rotate0);
-        //Rotate 90
-        Square rotate90 = square.rotateBy(-90);
-        symmetries.add(rotate90);
-        //Rotate 180
-        Square rotate180 = square.rotateBy(-180);
-        symmetries.add(rotate180);
-        //Rotate 270
-        Square rotate270 = square.rotateBy(-270);
-        symmetries.add(rotate270);
+//        Square rotate0 = square.rotateBy(0);
+//        symmetries.add(rotate0);
+//        //Rotate 90
+//        Square rotate90 = square.rotateBy(-90);
+//        symmetries.add(rotate90);
+//        //Rotate 180
+//        Square rotate180 = square.rotateBy(-180);
+//        symmetries.add(rotate180);
+//        //Rotate 270
+//        Square rotate270 = square.rotateBy(-270);
+//        symmetries.add(rotate270);
 
         //Vertical Reflect
         Square verticalReflect = square;
-        verticalReflect = (Square) verticalReflect.translateBy(-storedCenterX, -storedCenterY);
+        //verticalReflect = (Square) verticalReflect.translateBy(-storedCenterX, -storedCenterY);
         verticalReflect = verticalReflect.rotateBy(180);
-        verticalReflect = (Square) verticalReflect.translateBy(storedCenterX, storedCenterY);
+        //verticalReflect = (Square) verticalReflect.translateBy(storedCenterX, storedCenterY);
         symmetries.add(verticalReflect);
 
 //        //Horizontal Reflect
@@ -81,12 +80,12 @@ public class SquareSymmetries implements Symmetries<Square> {
         Square s2 = new Square(a,b,c,d);
         s2 = (Square) s2.translateBy(92,-92);
 
-        //System.out.println("Original: " + s1.toString());
+        System.out.println("Original: " + s1.toString());
         Collection<Square> symmetries = ar.symmetriesOf(s1);
         for (Square s : symmetries) System.out.println("          " + s);
         System.out.println();
 
-        //System.out.println("Original: " + s2.toString());
+        System.out.println("Original: " + s2.toString());
         Collection<Square> symmetries1 = ar.symmetriesOf(s2);
         for (Square s : symmetries1) System.out.println("          " + s);
         //doesn't print 180 in the right order

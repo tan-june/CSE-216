@@ -22,7 +22,13 @@ public class Square extends Shape {
         double DistanceDtoA = d.distance(a);
         double DistanceAtoC = a.distance(c);
         double DistanceBtoD = b.distance(d);
-        if (DistanceAtoB != DistanceBtoC || DistanceAtoB != DistanceCtoD || DistanceAtoB != DistanceDtoA || DistanceAtoC != DistanceBtoD) {
+
+        double threshold = 0.000001;
+        if ((Math.abs(DistanceAtoB-DistanceBtoC) >threshold) ||
+            (Math.abs(DistanceAtoB-DistanceCtoD) >threshold) ||
+            (Math.abs(DistanceAtoB-DistanceDtoA) >threshold) ||
+            (Math.abs(DistanceAtoC-DistanceBtoD) >threshold))
+        {
             throw new NullPointerException("Provided Input is not a Square!");
         }
         this.a = a;
@@ -82,13 +88,13 @@ public class Square extends Shape {
         List<Point> PointSort = points;
         Point center = center();
 
-        Collections.sort(PointSort, (p1, p2) -> {
+        Collections.sort(points, (p1, p2) -> {
             p1 = p1.round();
             p2 = p2.round();
             double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
             double angle2 = Math.toDegrees(Math.atan2(p2.getY() - centerY, p2.getX() - centerX));
             if (angle1 < 0) {
-                angle1 += 360;
+                angle1 += 360.0;
             }
             if (angle2 < 0) {
                 angle2 += 360;
@@ -98,13 +104,7 @@ public class Square extends Shape {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < PointSort.size(); i++) {
             Point point = PointSort.get(i);
-            sb.append("(");
-            sb.append(point.name);
-            sb.append(", ");
-            sb.append(point.getX());
-            sb.append(", ");
-            sb.append(point.getY());
-            sb.append(")");
+            sb.append(String.format("(%s, %.2f, %.2f)", point.name, point.x, point.y));
             if (i < PointSort.size() - 1) {
                 sb.append("; ");
             }
@@ -126,9 +126,6 @@ public class Square extends Shape {
         System.out.println(lonely);
         System.out.println(lonely.center());
         System.out.println();
-        //Square Testing
-        //[(A, 10.0, 10.0); (B, -10.0, 10.0); (C, -10.0, -10.0); (D, 10.0, -10.0)]
-        //(Center of Square, 0.0, 0.0)
 
         lonely = lonely.translateBy(100,100);
         System.out.println("Print Square Not at Origin");
@@ -136,9 +133,6 @@ public class Square extends Shape {
         System.out.println(lonely.center());
         System.out.println();
         lonely = lonely.translateBy(-100,-100);
-        //Print Square Not at Origin
-        //[(A, 110.0, 110.0); (B, 90.0, 110.0); (C, 90.0, 90.0); (D, 110.0, 90.0)]
-        //(Center of Square, 100.0, 100.0)
 
 
         //To String Testing
@@ -150,10 +144,6 @@ public class Square extends Shape {
         Shape lonely3 = lonely2.translateBy(100,-115);
         System.out.println(lonely3);
         System.out.println();
-        //toString Testing -> Should always be ABCD
-        //[(A, 100.0, 100.0); (B, 80.0, 100.0); (C, 80.0, 80.0); (D, 100.0, 80.0)]
-        //[(A, 85.0, 115.0); (B, 65.0, 115.0); (C, 65.0, 95.0); (D, 85.0, 95.0)]
-        //[(A, 185.0, 0.0); (B, 165.0, 0.0); (C, 165.0, -20.0); (D, 185.0, -20.0)]
 
         //Translation Testing
         Point a1 = new Point("A", 20, 20);
@@ -169,10 +159,7 @@ public class Square extends Shape {
         translator = translator.translateBy(-1000,1000);
         System.out.println("          " + translator);
         System.out.println();
-        //Translation Tests -> Should always be ABCD
-        //Original: [(A, -80.0, 120.0); (B, -120.0, 120.0); (C, -120.0, 80.0); (D, -80.0, 80.0)]
-        //          [(A, 920.0, -880.0); (B, 880.0, -880.0); (C, 880.0, -920.0); (D, 920.0, -920.0)]
-        //          [(A, -80.0, 120.0); (B, -120.0, 120.0); (C, -120.0, 80.0); (D, -80.0, 80.0)]
+
 
         //Rotation Test
         Shape rotator = new Square(a1,b1,c1,d1);
@@ -187,12 +174,6 @@ public class Square extends Shape {
         rotator = rotator.rotateBy(90);
         System.out.println("          " + rotator);
         System.out.println();
-        //Rotate Tests
-        //Original: [(A, 20.0, 20.0); (B, -20.0, 20.0); (C, -20.0, -20.0); (D, 20.0, -20.0)]
-        //          [(D, 20.0, 20.0); (A, -20.0, 20.0); (B, -20.0, -20.0); (C, 20.0, -20.0)]
-        //          [(C, 20.0, 20.0); (D, -20.0, 20.0); (A, -20.0, -20.0); (B, 20.0, -20.0)]
-        //          [(B, 20.0, 20.0); (C, -20.0, 20.0); (D, -20.0, -20.0); (A, 20.0, -20.0)]
-        //          [(A, 20.0, 20.0); (B, -20.0, 20.0); (C, -20.0, -20.0); (D, 20.0, -20.0)]
 
         //Rotation Test 2
         System.out.println("\n" + "Rotate Tests 2");
@@ -207,12 +188,6 @@ public class Square extends Shape {
         rotator = rotator.rotateBy(-180);
         System.out.println("          " + rotator);
         System.out.println();
-        //Rotate Tests 2
-        //Original: [(A, 70.0, -30.0); (B, 30.0, -30.0); (C, 30.0, -70.0); (D, 70.0, -70.0)]
-        //          [(D, 70.0, -30.0); (A, 30.0, -30.0); (B, 30.0, -70.0); (C, 70.0, -70.0)]
-        //          [(A, 70.0, -30.0); (B, 30.0, -30.0); (C, 30.0, -70.0); (D, 70.0, -70.0)]
-        //          [(C, 70.0, -30.0); (D, 30.0, -30.0); (A, 30.0, -70.0); (B, 70.0, -70.0)]
-        //          [(A, 70.0, -30.0); (B, 30.0, -30.0); (C, 30.0, -70.0); (D, 70.0, -70.0)]
 
         //Rotation Test 3
         System.out.println("\n" + "Rotate Tests 3");
@@ -228,13 +203,7 @@ public class Square extends Shape {
         System.out.println("          " + rotator);
         rotator = rotator.rotateBy(360);
         System.out.println("          " + rotator);
-        //Rotate Tests 3
-        //Original: [(A, 10070.0, 9970.0); (B, 10030.0, 9970.0); (C, 10030.0, 9930.0); (D, 10070.0, 9930.0)]
-        //          [(B, 10070.0, 9970.0); (C, 10030.0, 9970.0); (D, 10030.0, 9930.0); (A, 10070.0, 9930.0)]
-        //          [(C, 10070.0, 9970.0); (D, 10030.0, 9970.0); (A, 10030.0, 9930.0); (B, 10070.0, 9930.0)]
-        //          [(D, 10070.0, 9970.0); (A, 10030.0, 9970.0); (B, 10030.0, 9930.0); (C, 10070.0, 9930.0)]
-        //          [(A, 10070.0, 9970.0); (B, 10030.0, 9970.0); (C, 10030.0, 9930.0); (D, 10070.0, 9930.0)]
-        //          [(A, 10070.0, 9970.0); (B, 10030.0, 9970.0); (C, 10030.0, 9930.0); (D, 10070.0, 9930.0)]
+
 
         System.out.println("\n" + "Illegal Argument Exceptions");
         Shape nope = new Square(north, toofarsouth, east, west);

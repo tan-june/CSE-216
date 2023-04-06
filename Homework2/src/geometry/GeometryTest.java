@@ -14,7 +14,7 @@ public class GeometryTest {
 
     public static void main(String... args) {
         testRadialGraphSymmetries();
-        testSquareSymmetries();
+        //testSquareSymmetries();
     }
 
     private static void testRadialGraphSymmetries() {
@@ -30,10 +30,15 @@ public class GeometryTest {
         RadialGraph g4 = g1.rotateBy(180);
 
         RadialGraphSymmetries graphSymmetries = new RadialGraphSymmetries();
-        graphSymmetries.areSymmetric(g1, g2); // must return false
-        graphSymmetries.areSymmetric(g1, g3); // must return true
-        graphSymmetries.areSymmetric(g3, g4); // must return true
+        boolean a1 = graphSymmetries.areSymmetric(g1, g1); // must return true
+        boolean a = graphSymmetries.areSymmetric(g1, g2); // must return false
+        boolean b = graphSymmetries.areSymmetric(g1, g3); // must return true
+        boolean c = graphSymmetries.areSymmetric(g3, g4); // must return true
 
+        System.out.println(a1);
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
         // obtain all the symmetries (including the identity) of g1, and print them one by one (remember that printing
         // will give the string representation of each radial graph, which must follow the specification of Shape's
         // toString() method)
