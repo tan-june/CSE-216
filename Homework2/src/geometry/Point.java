@@ -1,5 +1,6 @@
 package geometry;
 
+import java.math.RoundingMode;
 import java.util.StringJoiner;
 
 /**
@@ -20,8 +21,11 @@ public class Point {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", "(", ")").add(name).add(Double.toString(x)).add(Double.toString(y)).toString();
+        double x1 = Math.round(x * 100.0) / 100.0;
+        double y1 = Math.round(y * 100.0) / 100.0;
+        return new StringJoiner(", ", "(", ")").add(name).add(Double.toString(x1)).add(Double.toString(y1)).toString();
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -42,20 +46,30 @@ public class Point {
     public double getY(){
         return y;
     }
-    public Point rotatePoint(Point center, int degrees) {
-        double radians = Math.toRadians(degrees);
-        double cosValue = Math.cos(radians);
-        double sinValue = Math.sin(radians);
-        double centerX = x - center.getX();
-        double centerY = y - center.getY();
-        double newX = Math.round((centerX * cosValue - centerY * sinValue + center.getX()));
-        double newY = Math.round((centerX * sinValue + centerY * cosValue + center.getY()));
+    public Point rotatePoint(Point center, double angle) {
+        double cos = Math.cos(Math.toRadians(angle));
+        double sin = Math.sin(Math.toRadians(angle));
+        double dx = x - center.x;
+        double dy = y - center.y;
+        double newX = center.x + cos * dx - sin * dy;
+        double newY = center.y + sin * dx + cos * dy;
         return new Point(name, newX, newY);
     }
+
     public double distance(Point other){
-        double y_squared = ((this.y - other.y)* (this.y - other.y));
-        double x_squared = ((this.x - other.x)* (this.x - other.x));
-        double distance  = Math.sqrt(x_squared + y_squared);
+        double y_distance = (other.y - this.y);
+        double y_squared = Math.pow(y_distance, 2);
+
+        double x_distance = (other.x - this.x);
+        double x_squared = Math.pow(x_distance, 2);
+
+//        System.out.println("X Distance:  " + x_distance);
+//        System.out.println("X Squared:  " + x_squared);
+//        System.out.println("Y Distance:  " + y_distance);
+//        System.out.println("Y Squared:  " + y_squared);
+//        System.out.println("Distance Added: " + (x_squared+y_squared));
+//        System.out.println("Distance SQRT: " + Math.sqrt(x_squared+y_squared));
+        double distance  = Math.sqrt((x_squared + y_squared));
         return distance;
     }
     public Point translatePoint(double x_translate, double y_translate) {
@@ -63,4 +77,10 @@ public class Point {
         double newY = y + y_translate;
         return new Point(name, newX, newY);
     }
+    public Point round(){
+         double x1 = Math.round(x * 100.0) / 100.0;
+         double y1 = Math.round(y * 100.0) / 100.0;
+         return new Point(name, x1, y1);
+    }
 }
+

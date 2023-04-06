@@ -81,7 +81,10 @@ public class Square extends Shape {
         translateBy(-centerX, -centerY);
         List<Point> PointSort = points;
         Point center = center();
+
         Collections.sort(PointSort, (p1, p2) -> {
+            p1 = p1.round();
+            p2 = p2.round();
             double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
             double angle2 = Math.toDegrees(Math.atan2(p2.getY() - centerY, p2.getX() - centerX));
             if (angle1 < 0) {

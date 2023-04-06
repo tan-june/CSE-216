@@ -13,11 +13,18 @@ public class RadialGraph extends Shape {
         if(neighbors.size()>0){ //account for only center case as the other constructor calls this constructor too
             double firstVal = center.distance(neighbors.get(0));
             for (int i = 1; i < neighbors.size(); i++) {
-                if (center.distance(neighbors.get(i)) != firstVal) {
+                double threshold = 0.000001;
+                if (Math.abs(center.distance(neighbors.get(i)) - firstVal) > threshold) {
+//                    System.out.println(neighbors.get(i).toString());
+//                    System.out.println("Value: " + center.distance(neighbors.get(i)));
                     throw new IllegalArgumentException("All edges must have same length from center!");
                 }
             }
         }
+    }
+
+    public int getNeighborsSize() {
+        return neighbors.size();
     }
 
     public RadialGraph(Point center) {
@@ -60,10 +67,12 @@ public class RadialGraph extends Shape {
         List<Point> points = neighbors;
         Point center = center();
         Collections.sort(points, (p1, p2) -> {
+            p1 = p1.round();
+            p2 = p2.round();
             double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
             double angle2 = Math.toDegrees(Math.atan2(p2.getY() - centerY, p2.getX() - centerX));
             if (angle1 < 0) {
-                angle1 += 360;
+                angle1 += 359.9;
             }
             if (angle2 < 0) {
                 angle2 += 360;
@@ -71,7 +80,6 @@ public class RadialGraph extends Shape {
             return Double.compare(angle1, angle2);
         });
 
-        // Build the string representation of the shape
         StringBuilder sb = new StringBuilder("[");
         sb.append(center.toString());
         for (Point p : points) {
@@ -79,21 +87,55 @@ public class RadialGraph extends Shape {
         }
         sb.append("]");
 
-        // Translate the shape back to its original position
         translateBy(centerX, centerY);
 
         return sb.toString();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == this){
+            System.out.println("failure 0");
+            return true;
+        }
+        if(!(obj instanceof RadialGraph)){
+            System.out.println("failure 1");
+            return false;
+        }
+
+        RadialGraph object = (RadialGraph) obj;
+
+        if (this.center != object.center) {
+            System.out.println("failure 2");
+            return false;
+        }
+        if (this.neighbors.size() != object.neighbors.size()) {
+            System.out.println("failure 3");
+            return false;
+        }
+
+        for (int i = 0; i < this.neighbors.size(); i++) {
+            if (!(this.neighbors.get(i).equals(object.neighbors.get(i)))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public static void main(String... args) {
 
         Point center = new Point("center", 0, 0);
-        Point east = new Point("east", 1, 0);
-        Point west = new Point("west", -1, 0);
-        Point north = new Point("north", 0, 1);
-        Point south = new Point("south", 0, -1);
-        Point toofarsouth = new Point("south", 0, -2);
+        Point east = new Point("E", 1, 0);
+        Point west = new Point("W", -1, 0);
+        Point north = new Point("N", 0, 1);
+        Point south = new Point("S", 0, -1);
+
+        Point fifth = new Point("NE", ((Math.sqrt(2))/2),((Math.sqrt(2))/2));
+        Point sixth = new Point("NW", -((Math.sqrt(2))/2),-((Math.sqrt(2))/2));
+        Point seventh = new Point("SW", -((Math.sqrt(2))/2),((Math.sqrt(2))/2));
+        Point eigth = new Point("SE", ((Math.sqrt(2))/2),-((Math.sqrt(2))/2));
+
+        Point toofarsouth = new Point("south", 0, 0.2312);
 
         System.out.println("Single Point");
         RadialGraph lonely = new RadialGraph(center);
@@ -103,23 +145,25 @@ public class RadialGraph extends Shape {
 
         //Rotating Test
         System.out.println("\n" + "Rotate Test");
-        Shape g = new RadialGraph(center, Arrays.asList(north, south, east, west));
+        Shape g = new RadialGraph(center, Arrays.asList(east, west, south, north, fifth, sixth, seventh, eigth));
         System.out.println(g);
-        g = g.rotateBy(90);
+        g = g.rotateBy(45);
         System.out.println(g);
-        g = g.rotateBy(180);
+        g = g.rotateBy(45);
         System.out.println(g);
-        g = g.rotateBy(270);
+        g = g.rotateBy(45);
         System.out.println(g);
-        g = g.rotateBy(180);
+        g = g.rotateBy(45);
+        System.out.println(g);
+        g = g.rotateBy(45);
+        System.out.println(g);
+        g = g.rotateBy(45);
+        System.out.println(g);
+        g = g.rotateBy(45);
+        System.out.println(g);
+        g = g.rotateBy(45);
         System.out.println(g);
         System.out.println();
-        //Rotate Test
-        //[(center, 0.0, 0.0); (east, 1.0, 0.0); (north, 0.0, 1.0); (west, -1.0, 0.0); (south, 0.0, -1.0)]
-        //[(center, 0.0, 0.0); (south, 1.0, 0.0); (east, 0.0, 1.0); (north, -1.0, 0.0); (west, 0.0, -1.0)]
-        //[(center, 0.0, 0.0); (north, 1.0, 0.0); (west, 0.0, 1.0); (south, -1.0, 0.0); (east, 0.0, -1.0)]
-        //[(center, 0.0, 0.0); (west, 1.0, 0.0); (south, 0.0, 1.0); (east, -1.0, 0.0); (north, 0.0, -1.0)]
-        //[(center, 0.0, 0.0); (east, 1.0, 0.0); (north, 0.0, 1.0); (west, -1.0, 0.0); (south, 0.0, -1.0)]
 
         //Translation Test
         System.out.println("\n" + "Translation Test");
@@ -133,12 +177,6 @@ public class RadialGraph extends Shape {
         t = t.translateBy(-90,-90);
         System.out.println(t);
         System.out.println();
-        //[(center, 0.0, 0.0); (east, 1.0, 0.0); (north, 0.0, 1.0); (west, -1.0, 0.0); (south, 0.0, -1.0)]
-        //[(center, 100.0, 100.0); (east, 101.0, 100.0); (north, 100.0, 101.0); (west, 99.0, 100.0); (south, 100.0, 99.0)]
-        //[(center, 90.0, 90.0); (east, 91.0, 90.0); (north, 90.0, 91.0); (west, 89.0, 90.0); (south, 90.0, 89.0)]
-        //[(center, 0.0, 0.0); (east, 1.0, 0.0); (north, 0.0, 1.0); (west, -1.0, 0.0); (south, 0.0, -1.0)]
-
-
 
         //Break Your Code Test
         System.out.println("Break Your Code Test");
@@ -170,18 +208,6 @@ public class RadialGraph extends Shape {
         test1 = test1.rotateBy(-90);
         System.out.println("Rotate   :   " + test1);
         System.out.println();
-        //Break Your Code Test
-        //Original:    [(center, 10.0, 14.0); (east, 11.0, 14.0); (north, 10.0, 15.0); (west, 9.0, 14.0); (south, 10.0, 13.0)]
-        //Translate:   [(center, 110.0, 114.0); (east, 111.0, 114.0); (north, 110.0, 115.0); (west, 109.0, 114.0); (south, 110.0, 113.0)]
-        //Translate:   [(center, 100.0, 104.0); (east, 101.0, 104.0); (north, 100.0, 105.0); (west, 99.0, 104.0); (south, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (south, 101.0, 104.0); (east, 100.0, 105.0); (north, 99.0, 104.0); (west, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (west, 101.0, 104.0); (south, 100.0, 105.0); (east, 99.0, 104.0); (north, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (north, 101.0, 104.0); (west, 100.0, 105.0); (south, 99.0, 104.0); (east, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (east, 101.0, 104.0); (north, 100.0, 105.0); (west, 99.0, 104.0); (south, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (north, 101.0, 104.0); (west, 100.0, 105.0); (south, 99.0, 104.0); (east, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (west, 101.0, 104.0); (south, 100.0, 105.0); (east, 99.0, 104.0); (north, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (south, 101.0, 104.0); (east, 100.0, 105.0); (north, 99.0, 104.0); (west, 100.0, 103.0)]
-        //Rotate   :   [(center, 100.0, 104.0); (east, 101.0, 104.0); (north, 100.0, 105.0); (west, 99.0, 104.0); (south, 100.0, 103.0)]
 
         System.out.println("\n" + "Illegal Argument Exceptions");
         // This line must throw IllegalArgumentException, since the edges will not be of the same length
