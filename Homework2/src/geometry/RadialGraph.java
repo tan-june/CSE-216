@@ -99,22 +99,22 @@ public class RadialGraph extends Shape {
     @Override
     public boolean equals(Object obj) {
         if(obj == this){
-            System.out.println("failure 0");
+//            System.out.println("failure 0");
             return true;
         }
         if(!(obj instanceof RadialGraph)){
-            System.out.println("failure 1");
+//            System.out.println("failure 1");
             return false;
         }
 
         RadialGraph object = (RadialGraph) obj;
 
         if (this.center != object.center) {
-            System.out.println("failure 2");
+//            System.out.println("failure 2");
             return false;
         }
         if (this.neighbors.size() != object.neighbors.size()) {
-            System.out.println("failure 3");
+//            System.out.println("failure 3");
             return false;
         }
 

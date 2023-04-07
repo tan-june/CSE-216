@@ -1,58 +1,96 @@
 package geometry;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Square extends Shape {
 
-    private Point a;
-    private Point b;
-    private Point c;
-    private Point d;
+    private  Point a;
+    private  Point b;
+    private  Point c;
+    private  Point d;
     Point center;
     private List<Point> points;
 
     //Constructor based on 4 points in a Square
     public Square(Point a, Point b, Point c, Point d) {
-        double DistanceAtoB = a.distance(b);
-        double DistanceBtoC = b.distance(c);
-        double DistanceCtoD = c.distance(d);
-        double DistanceDtoA = d.distance(a);
-        double DistanceAtoC = a.distance(c);
-        double DistanceBtoD = b.distance(d);
+        double distanceAtoB = a.distance(b);
+        double distanceBtoC = b.distance(c);
+        double distanceCtoD = c.distance(d);
+        double distanceDtoA = d.distance(a);
+        double distanceAtoC = a.distance(c);
+        double distanceBtoD = b.distance(d);
 
         double threshold = 0.000001;
-        if ((Math.abs(DistanceAtoB-DistanceBtoC) >threshold) ||
-            (Math.abs(DistanceAtoB-DistanceCtoD) >threshold) ||
-            (Math.abs(DistanceAtoB-DistanceDtoA) >threshold) ||
-            (Math.abs(DistanceAtoC-DistanceBtoD) >threshold))
+        if ((Math.abs(distanceAtoB - distanceBtoC) > threshold) ||
+                (Math.abs(distanceAtoB - distanceCtoD) > threshold) ||
+                (Math.abs(distanceAtoB - distanceDtoA) > threshold) ||
+                (Math.abs(distanceAtoC - distanceBtoD) > threshold))
         {
-            throw new NullPointerException("Provided Input is not a Square!");
+            throw new NullPointerException("Provided input is not a square!");
         }
+
         this.a = a;
         this.b = b;
         this.c = c;
         this.d = d;
+
         points = new ArrayList<>();
         points.add(a);
         points.add(b);
         points.add(c);
         points.add(d);
+
         center = center();
+
+        sortPoints();
+        this.a=points.get(0);
+        this.b=points.get(1);
+        this.c=points.get(2);
+        this.d=points.get(3);
+
+    }
+
+    public void sortPoints() {
+        Point center = center();
+        double centerX = center.getX();
+        double centerY = center.getY();
+
+        points.sort((p1, p2) -> {
+            p1 = p1.round();
+            p2 = p2.round();
+            double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
+            double angle2 = Math.toDegrees(Math.atan2(p2.getY() - centerY, p2.getX() - centerX));
+            if (angle1 < 0) {
+                angle1 += 360.0;
+            }
+            if (angle2 < 0) {
+                angle2 += 360;
+            }
+            return Double.compare(angle1, angle2);
+        });
+//        System.out.println(points);
     }
 
     public Point getA(){
         return a;
     }
+    public Point getB(){
+        return b;
+    }
+    public Point getC(){
+        return c;
+    }
+    public Point getD(){
+        return d;
+    }
 
     //Finding the Center of the Square
     @Override
     public Point center() {
-        double x = (a.getX() + c.getX()) / 2;
-        double y = (a.getY()+ c.getY()) / 2;
-        return new Point("Center of Square", x, y);
+        double side1 = (a.x + b.x + c.x + d.x) / 4.0;
+        double side2 = (a.y + b.y + c.y + d.y) / 4.0;
+        return new Point("Center of Square", side1, side2);
     }
 
     //Rotate by Degrees -> Work Done in the Point.Java Class and Called and stored and returns new square
@@ -66,6 +104,27 @@ public class Square extends Shape {
         Point rotateD = d.rotatePoint(centerofSquare, degrees);
 
         return new Square(rotateA, rotateB, rotateC, rotateD);
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Square)) {
+            return false;
+        }
+        Square other = (Square) obj;
+
+        // Compare X and Y coordinates of each point using Math.abs and a threshold
+        double threshold = 0.000001;
+        return Math.abs(a.getX() - other.a.getX()) < threshold
+                && Math.abs(a.getY() - other.a.getY()) < threshold
+                && Math.abs(b.getX() - other.b.getX()) < threshold
+                && Math.abs(b.getY() - other.b.getY()) < threshold
+                && Math.abs(c.getX() - other.c.getX()) < threshold
+                && Math.abs(c.getY() - other.c.getY()) < threshold
+                && Math.abs(d.getX() - other.d.getX()) < threshold
+                && Math.abs(d.getY() - other.d.getY()) < threshold;
     }
 
     @Override
@@ -88,7 +147,7 @@ public class Square extends Shape {
         List<Point> PointSort = points;
         Point center = center();
 
-        Collections.sort(points, (p1, p2) -> {
+        points.sort((p1, p2) -> {
             p1 = p1.round();
             p2 = p2.round();
             double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
@@ -112,6 +171,65 @@ public class Square extends Shape {
         sb.append("]");
         return sb.toString();
     }
+
+    public Square verticalReflect() {
+        Point center = center();
+
+        Point tempA = new Point(a.name, a.x, 2*center.y- a.y);
+        Point tempB = new Point(b.name, b.x, 2*center.y-b.y);
+        Point tempC = new Point(c.name, c.x, 2*center.y-c.y);
+        Point tempD = new Point(d.name, d.x, 2*center.y-d.y);
+
+        return new Square(tempA, tempB, tempC, tempD);
+    }
+
+    public Square horizontalReflect() {
+        Point center = center();
+
+        Point tempA = new Point(a.name, 2 * center.x - a.x, a.y);
+        Point tempB = new Point(b.name, 2 * center.x - b.x, b.y);
+        Point tempC = new Point(c.name, 2 * center.x - c.x, c.y);
+        Point tempD = new Point(d.name, 2 * center.x - d.x, d.y);
+
+        return new Square(tempA, tempB, tempC, tempD);
+    }
+
+    public Square diagonalReflect() {
+        Point center = center();
+        Point tempA = new Point(a.name, a.y - center.y, a.x - center.x);
+        Point tempB = new Point(b.name, b.y - center.y, b.x - center.x);
+        Point tempC = new Point(c.name, c.y - center.y, c.x - center.x);
+        Point tempD = new Point(d.name, d.y - center.y, d.x - center.x);
+
+        Square reflected = new Square(tempA, tempB, tempC, tempD);
+
+        Point finalA = new Point(a.name, center.y + tempA.x, center.x + tempA.y);
+        Point finalB = new Point(b.name, center.y + tempB.x, center.x + tempB.y);
+        Point finalC = new Point(c.name, center.y + tempC.x, center.x + tempC.y);
+        Point finalD = new Point(d.name, center.y + tempD.x, center.x + tempD.y);
+
+        return new Square(finalA, finalB, finalC, finalD);
+    }
+
+    public Square counterDiagonal(){
+        Point center = center();
+        Point tempA = new Point(a.name, -a.y - center.y, -a.x - center.x);
+        Point tempB = new Point(b.name, -b.y - center.y, -b.x - center.x);
+        Point tempC = new Point(c.name, -c.y - center.y, -c.x - center.x);
+        Point tempD = new Point(d.name, -d.y - center.y, -d.x - center.x);
+
+        Square reflected = new Square(tempA, tempB, tempC, tempD);
+
+        Point finalA = new Point(a.name, center.y + tempA.x, center.x + tempA.y);
+        Point finalB = new Point(b.name, center.y + tempB.x, center.x + tempB.y);
+        Point finalC = new Point(c.name, center.y + tempC.x, center.x + tempC.y);
+        Point finalD = new Point(d.name, center.y + tempD.x, center.x + tempD.y);
+
+        return new Square(finalA, finalB, finalC, finalD);
+    }
+
+
+
 
     public static void main(String... args) {
         Point east = new Point("A", 10, 10);

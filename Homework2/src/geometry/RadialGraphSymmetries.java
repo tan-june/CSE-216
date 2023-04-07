@@ -1,7 +1,9 @@
 package geometry;
 
-import java.sql.SQLOutput;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 public class RadialGraphSymmetries implements Symmetries<RadialGraph>{
     @Override

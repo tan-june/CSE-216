@@ -2,7 +2,6 @@ package geometry;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * This class is given to you as an outline for testing your code. You can modify this as you want, but please keep in
@@ -14,7 +13,7 @@ public class GeometryTest {
 
     public static void main(String... args) {
         testRadialGraphSymmetries();
-        //testSquareSymmetries();
+        testSquareSymmetries();
     }
 
     private static void testRadialGraphSymmetries() {
@@ -53,9 +52,11 @@ public class GeometryTest {
         Square sq3 = sq1.rotateBy(180);
 
         SquareSymmetries squareSymmetries = new SquareSymmetries();
-        squareSymmetries.areSymmetric(sq1, sq2); // must return false
-        squareSymmetries.areSymmetric(sq1, sq3); // must return true
+        boolean a123 = squareSymmetries.areSymmetric(sq1, sq2); // must return false
+        boolean asd3 = squareSymmetries.areSymmetric(sq1, sq3); // must return true
 
+        System.out.println(a123);
+        System.out.println(asd3);
         // obtain all the 8 symmetries (including the identity) of sq1, and print them one by one (remember that printing
         // will give the string representation of each square, which must follow the specification of Shape's toString()
         // method)

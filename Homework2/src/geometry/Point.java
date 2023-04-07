@@ -1,6 +1,5 @@
 package geometry;
 
-import java.math.RoundingMode;
 import java.util.StringJoiner;
 
 /**

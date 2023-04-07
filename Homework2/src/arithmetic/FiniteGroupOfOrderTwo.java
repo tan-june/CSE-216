@@ -6,10 +6,8 @@ import java.util.List;
 
 public class FiniteGroupOfOrderTwo implements Group<PlusOrMinusOne> {
 
-    private final List<PlusOrMinusOne> elements;
-
     public FiniteGroupOfOrderTwo() {
-        elements = Arrays.asList(PlusOrMinusOne.PLUS_ONE, PlusOrMinusOne.MINUS_ONE);
+        List<PlusOrMinusOne> elements = Arrays.asList(PlusOrMinusOne.PLUS_ONE, PlusOrMinusOne.MINUS_ONE);
     }
 
     @Override
