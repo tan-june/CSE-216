@@ -52,7 +52,6 @@ public class Point {
         double newY = center.y + sin * dx + cos * dy;
         return new Point(name, newX, newY);
     }
-
     public double distance(Point other){
         double y_distance = (other.y - this.y);
         double y_squared = Math.pow(y_distance, 2);
