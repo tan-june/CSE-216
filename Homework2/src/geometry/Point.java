@@ -46,10 +46,10 @@ public class Point {
     public Point rotatePoint(Point center, double angle) {
         double cos = Math.cos(Math.toRadians(angle));
         double sin = Math.sin(Math.toRadians(angle));
-        double dx = x - center.x;
-        double dy = y - center.y;
-        double newX = center.x + cos * dx - sin * dy;
-        double newY = center.y + sin * dx + cos * dy;
+        double originX = x - center.x;
+        double originY = y - center.y;
+        double newX = center.x + (cos * originX) - (sin * originY);
+        double newY = center.y + (sin * originX) + (cos * originY);
         return new Point(name, newX, newY);
     }
     public double distance(Point other){
