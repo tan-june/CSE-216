@@ -117,14 +117,15 @@ public class Square extends Shape {
 
         // Compare X and Y coordinates of each point using Math.abs and a threshold
         double threshold = 0.000001;
-        return Math.abs(a.getX() - other.a.getX()) < threshold
-                && Math.abs(a.getY() - other.a.getY()) < threshold
-                && Math.abs(b.getX() - other.b.getX()) < threshold
-                && Math.abs(b.getY() - other.b.getY()) < threshold
-                && Math.abs(c.getX() - other.c.getX()) < threshold
-                && Math.abs(c.getY() - other.c.getY()) < threshold
-                && Math.abs(d.getX() - other.d.getX()) < threshold
-                && Math.abs(d.getY() - other.d.getY()) < threshold;
+        boolean answer  = Math.abs(a.getX() - other.a.getX()) < threshold
+                       && Math.abs(a.getY() - other.a.getY()) < threshold
+                       && Math.abs(b.getX() - other.b.getX()) < threshold
+                       && Math.abs(b.getY() - other.b.getY()) < threshold
+                       && Math.abs(c.getX() - other.c.getX()) < threshold
+                       && Math.abs(c.getY() - other.c.getY()) < threshold
+                       && Math.abs(d.getX() - other.d.getX()) < threshold
+                       && Math.abs(d.getY() - other.d.getY()) < threshold;
+        return answer;
     }
 
     @Override
