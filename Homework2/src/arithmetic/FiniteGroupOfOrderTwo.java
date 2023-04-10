@@ -1,5 +1,7 @@
 package arithmetic;
+
 import core.Group;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,8 +28,11 @@ public class FiniteGroupOfOrderTwo implements Group<PlusOrMinusOne> {
     }
 
     @Override
-    public PlusOrMinusOne inverseOf(PlusOrMinusOne plusOrMinusOne) {
-        return binaryOperation(plusOrMinusOne, plusOrMinusOne);
+    public PlusOrMinusOne inverseOf(PlusOrMinusOne element) {
+        if (element == PlusOrMinusOne.PLUS_ONE) {
+            return PlusOrMinusOne.PLUS_ONE;
+        } else {
+            return PlusOrMinusOne.MINUS_ONE;
+        }
     }
-
 }
