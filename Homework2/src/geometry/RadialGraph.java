@@ -77,31 +77,40 @@ public class RadialGraph extends Shape {
         translateBy(centerX, centerY);
         return sb.toString();
     }
+
     @Override
     public boolean equals(Object obj) {
         if(obj == this){
-        //System.out.println("failure 0");
+//            System.out.println("failure 0");
             return true;
         }
         if(!(obj instanceof RadialGraph)){
-        //System.out.println("failure 1");
+//            System.out.println("failure 1");
             return false;
         }
+
         RadialGraph object = (RadialGraph) obj;
-        if (this.center != object.center) {
-            //System.out.println("failure 2");
+        double threshold1 = 0.000001;
+        if ((Math.abs(this.center().x-object.center().x) > threshold1) &&
+        (Math.abs(this.center().y-object.center().y) > threshold1)
+
+            ){
+//            System.out.println("failure 2");
             return false;
         }
         if (this.neighbors.size() != object.neighbors.size()) {
-            //System.out.println("failure 3");
+//            System.out.println("failure 3");
             return false;
         }
+
         for (int i = 0; i < this.neighbors.size(); i++) {
             double threshold = 0.000001;
             if ((Math.abs((this.neighbors.get(i).getX()) - (object.neighbors.get(i).getX())) > threshold)
-            || (Math.abs((this.neighbors.get(i).getY()) - (object.neighbors.get(i).getY())) > threshold)) {
-                //System.out.println(this.neighbors.get(i));
-                //System.out.println(object.neighbors.get(i));
+                    || (Math.abs((this.neighbors.get(i).getY()) - (object.neighbors.get(i).getY())) > threshold)) {
+//                System.out.println("failed here");
+//                System.out.println(this.neighbors.get(i));
+//                System.out.println(object.neighbors.get(i));
+
                 return false;
             }
         }

@@ -32,6 +32,8 @@ public class GeometryTest {
         boolean a1 = graphSymmetries.areSymmetric(g1, g1); // must return true
         boolean a = graphSymmetries.areSymmetric(g1, g2); // must return false
         boolean b = graphSymmetries.areSymmetric(g1, g3); // must return true
+        System.out.println(g3);
+        System.out.println(g4);
         boolean c = graphSymmetries.areSymmetric(g3, g4); // must return true
 
         System.out.println(a1);
