@@ -43,11 +43,11 @@ public class Square extends Shape {
         Point center = center();
         double centerX = center.getX();
         double centerY = center.getY();
-        points.sort((p1, p2) -> {
-            p1 = p1.round();
-            p2 = p2.round();
-            double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
-            double angle2 = Math.toDegrees(Math.atan2(p2.getY() - centerY, p2.getX() - centerX));
+        points.sort((object1, object2) -> {
+            object1 = object1.round();
+            object2 = object2.round();
+            double angle1 = Math.toDegrees(Math.atan2(object1.getY() - centerY, object1.getX() - centerX));
+            double angle2 = Math.toDegrees(Math.atan2(object2.getY() - centerY, object2.getX() - centerX));
             if (angle1 < 0) {
                 angle1 += 360.0;
             }
@@ -123,11 +123,11 @@ public class Square extends Shape {
         List<Point> PointSort = points;
         Point center = center();
 
-        points.sort((p1, p2) -> {
-            p1 = p1.round();
-            p2 = p2.round();
-            double angle1 = Math.toDegrees(Math.atan2(p1.getY() - centerY, p1.getX() - centerX));
-            double angle2 = Math.toDegrees(Math.atan2(p2.getY() - centerY, p2.getX() - centerX));
+        points.sort((object1, object2) -> {
+            object1 = object1.round();
+            object2 = object2.round();
+            double angle1 = Math.toDegrees(Math.atan2(object1.getY() - centerY, object1.getX() - centerX));
+            double angle2 = Math.toDegrees(Math.atan2(object2.getY() - centerY, object2.getX() - centerX));
             if (angle1 < 0) {
                 angle1 += 360.0;
             }

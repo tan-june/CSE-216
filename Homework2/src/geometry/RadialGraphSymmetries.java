@@ -15,6 +15,9 @@ public class RadialGraphSymmetries implements Symmetries<RadialGraph> {
             //System.out.println("center trigger");
             return false;
         }
+        if(s1.equals(s2)){
+            return true;
+        }
         if (s1.getNeighborsSize() != s2.getNeighborsSize()) {
             //System.out.println("neighbor trigger");
             return false;

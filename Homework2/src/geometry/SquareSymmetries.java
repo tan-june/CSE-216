@@ -1,6 +1,7 @@
 package geometry;
 import java.util.*;
-public class SquareSymmetries implements Symmetries<Square> {
+public class
+SquareSymmetries implements Symmetries<Square> {
     @Override
     public boolean areSymmetric(Square s1, Square s2) {
 //        System.out.println(s1);
