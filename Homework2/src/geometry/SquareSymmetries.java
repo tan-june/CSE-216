@@ -58,65 +58,66 @@ SquareSymmetries implements Symmetries<Square> {
         //Vertical Reflect
         Square verticalReflect = square.verticalReflect();
         symmetries.add(verticalReflect);
-        //Horizontal Reflect
+//        //Horizontal Reflect
         Square horizontalReflect = square.horizontalReflect();
         symmetries.add(horizontalReflect);
         //Diagonal Reflect
         Square diagonalReflect = square.diagonalReflect();
         symmetries.add(diagonalReflect);
         //Counter-Diagonal Reflect
+
         Square counterDiagonal = square.counterDiagonal();
         symmetries.add(counterDiagonal);
         return symmetries;
     }
-//    public static void main(String... args) {
-//        Point a = new Point("A", 10, 10);
-//        Point b = new Point("B", -10, 10);
-//        Point c = new Point("C", -10, -10);
-//        Point d = new Point("D", 10, -10);
-//
-//        Point a1 = new Point("A", 100, 100);
-//        Point b2 = new Point("B", -100, 100);
-//        Point c3 = new Point("C", -100, -100);
-//        Point d4 = new Point("D", 100, -100);
-//
-//        SquareSymmetries ar = new SquareSymmetries();
-//
-//        Square s1 = new Square(a,b,c,d);
-//        Square s2 = new Square(a,b,c,d);
-//        Square s3 = new Square(a1,b2,c3,d4);
-//
-//        Square h1 = s2.rotateBy(-90);
-//        System.out.println(ar.areSymmetric(s1,h1));
-//
-//        Square h2 = s2.rotateBy(-180);
-//        System.out.println(ar.areSymmetric(s1,h2));
-//
-//        Square h3 = s2.rotateBy(-270);
-//        System.out.println(ar.areSymmetric(s1,h3));
-//
-//        Square h4 = s2.rotateBy(-360);
-//        System.out.println(ar.areSymmetric(s1,h4));
-//
-//        Square h5 = s2.rotateBy(90);
-//        System.out.println(ar.areSymmetric(s1,h5));
-//
-//        Square h6 = s2.rotateBy(180);
-//        System.out.println(ar.areSymmetric(s1,h6));
-//
-//        Square h7 = s2.rotateBy(270);
-//        System.out.println(ar.areSymmetric(s1,h7));
-//
-//        Square h8 = s2.rotateBy(360);
-//        System.out.println(ar.areSymmetric(s1,h8));
-//        System.out.println(ar.areSymmetric(h8,h8));
-//        System.out.println(ar.areSymmetric(h8,s1));
-//        System.out.println(ar.areSymmetric(h8,s3));
-//
-//        Collection<Square> symmetries = ar.symmetriesOf(s1);
-//        for (Square s : symmetries) System.out.println(s);
-//        System.out.println();
-//        Collection<Square> symmetries1 = ar.symmetriesOf(s2);
-//        for (Square s : symmetries1) System.out.println(s);
-//    }
+    public static void main(String... args) {
+        Point a = new Point("A", 10, 10);
+        Point b = new Point("B", -10, 10);
+        Point c = new Point("C", -10, -10);
+        Point d = new Point("D", 10, -10);
+
+        Point a1 = new Point("A", 100, 100);
+        Point b2 = new Point("B", -100, 100);
+        Point c3 = new Point("C", -100, -100);
+        Point d4 = new Point("D", 100, -100);
+
+        SquareSymmetries ar = new SquareSymmetries();
+
+        Square s1 = new Square(a,b,c,d);
+        Square s2 = new Square(a,b,c,d);
+        Square s3 = new Square(a1,b2,c3,d4);
+
+        Square h1 = s2.rotateBy(-90);
+        System.out.println(ar.areSymmetric(s1,h1));
+
+        Square h2 = s2.rotateBy(-180);
+        System.out.println(ar.areSymmetric(s1,h2));
+
+        Square h3 = s2.rotateBy(-270);
+        System.out.println(ar.areSymmetric(s1,h3));
+
+        Square h4 = s2.rotateBy(-360);
+        System.out.println(ar.areSymmetric(s1,h4));
+
+        Square h5 = s2.rotateBy(90);
+        System.out.println(ar.areSymmetric(s1,h5));
+
+        Square h6 = s2.rotateBy(180);
+        System.out.println(ar.areSymmetric(s1,h6));
+
+        Square h7 = s2.rotateBy(270);
+        System.out.println(ar.areSymmetric(s1,h7));
+
+        Square h8 = s2.rotateBy(360);
+        System.out.println(ar.areSymmetric(s1,h8));
+        System.out.println(ar.areSymmetric(h8,h8));
+        System.out.println(ar.areSymmetric(h8,s1));
+        System.out.println(ar.areSymmetric(h8,s3));
+
+        Collection<Square> symmetries = ar.symmetriesOf(s1);
+        for (Square s : symmetries) System.out.println(s);
+        System.out.println();
+        Collection<Square> symmetries1 = ar.symmetriesOf(s2);
+        for (Square s : symmetries1) System.out.println(s);
+    }
 }

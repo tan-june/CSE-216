@@ -197,6 +197,16 @@ public class Square extends Shape {
         Point south = new Point("D", 10, -10);
         Point toofarsouth = new Point("south", 0, -2);
 
+        Point east12 = new Point("A", 0, 0);
+        Point west12 = new Point("B", 1, 0);
+        Point north12 = new Point("C", 1, 1);
+        Point south12 = new Point("D", 0, 1);
+        Shape lonely12 = new Square(east12, west12, north12, south12);
+        System.out.println(lonely12);
+        System.out.println();
+        System.out.println();
+
+
         System.out.println("Square Testing");
         //Print Square @ Origin -> ABCD
         Shape lonely = new Square(east, west, north, south);
