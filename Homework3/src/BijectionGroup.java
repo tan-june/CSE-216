@@ -1,16 +1,20 @@
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BijectionGroup {
+public class BijectionGroup<T> {
 
     public static <T> Set<Function<T, T>> bijectionsOf(Set<T> domain) {
-        Set<Function<T, T>> bijections = new HashSet<>();
+        Set<Function<T, T>> result = new HashSet<>();
+        Set<T> elements = new HashSet<>(domain);
+
+        int size = elements.size();
 
 
-        return bijections;
+        return result;
     }
 
 
