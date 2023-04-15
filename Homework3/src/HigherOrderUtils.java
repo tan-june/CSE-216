@@ -136,8 +136,8 @@ public class HigherOrderUtils {
         List<NamedBiFunction<Double, Double, Double>> operations = Arrays.asList(add,multiply,add,divide);
         Double d = zip(numbers, operations); // expected correct value: 1.125
         System.out.println(d);
-        // different use case, not with NamedBiFunction objects
 
+        // different use case, not with NamedBiFunction objects
         List<String> strings = Arrays.asList("a","n","t");
         // note the syntax of this lambda expression
         BiFunction<String, String, String> concat = (s, t) -> s + t;

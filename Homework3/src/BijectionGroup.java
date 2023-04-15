@@ -1,41 +1,30 @@
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BijectionGroup<T> {
+public class BijectionGroup<T> implements Group<Function<T,T>>{
 
-    public static <T> Set<Function<T, T>> bijectionsOf(Set<T> domain) {
-        Set<Function<T, T>> result = new HashSet<>();
-        Set<T> elements = new HashSet<>(domain);
+    private Set<T> set;
 
-        int size = elements.size();
-
-
-        return result;
+    public BijectionGroup(Set<T> set) {
+        this.set = set;
     }
 
+    public static <T> BijectionGroup<T> bijectionGroup(Set<T> set) {
+        return new BijectionGroup<>(set);
+    }
 
+    public Function<T, T> identity() {
+        return x -> x;
+    }
 
+    public Function<T, T> binaryOperation(Function<T, T> f, Function<T, T> g) {
+        return x -> f.apply(g.apply(x));
+    }
 
-    public static void main(String... args) {
-//        Set<Integer> a_few = Stream.of(1, 2, 3).collect(Collectors.toSet());
-//        BijectionGroup<Integer> g = bijectionGroup(a_few);
-//        Bijection<Integer> f1 = bijectionsOf(a_few).stream().findFirst().get();
-//        Bijection<Integer> f2 = g.inverseOf(f1);
-//        Bijection<Integer> id = g.identity();
-//
-//        String groupString = "Bijection group G: " + g.toString();
-//        String f1String = "First bijection f1: " + f1.toString();
-//        String f2String = "Inverse of f1, f2: " + f2.toString();
-//        String idString = "Identity element of G: " + id.toString();
-//
-//        System.out.println(groupString);
-//        System.out.println(f1String);
-//        System.out.println(f2String);
-//        System.out.println(idString);
+    public Function<T, T> inverseOf(Function<T, T> f) {
+        return null;
     }
 
 }

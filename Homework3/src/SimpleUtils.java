@@ -40,14 +40,19 @@ public class SimpleUtils {
         System.out.println("Least Value:");
         List<Integer> intList = Arrays.asList(3, 4, 5, 9, 2, 6, 100, 23, 25, 5, 3, 5);
         int leastInt = SimpleUtils.least(intList, true);
+        System.out.println(intList);
         System.out.println("Value Should Be (2):       " + leastInt);
 
+        System.out.println();
         List<Double> doubleList = Arrays.asList(3.14, 2.71, 1.618, 1.414, 0.577, 0.001);
         double leastDouble = SimpleUtils.least(doubleList, true);
+        System.out.println(doubleList);
         System.out.println("Value Should Be (0.001):   " + leastDouble);
 
+        System.out.println();
         List<String> strList = Arrays.asList("bob", "ana", "ab", "hector", "tanmay", "nicolle");
         String leastStr = SimpleUtils.least(strList, true);
+        System.out.println(strList);
         System.out.println("Value Should Be ('ab'):    " + leastStr);
         System.out.println();
 
@@ -61,6 +66,7 @@ public class SimpleUtils {
         doubleAndBoolean.put(36.2, false);
         doubleAndBoolean.put(587.2, false);
         doubleAndBoolean.put(68.2, true);
+        System.out.println(doubleAndBoolean);
         List<String> result1 = SimpleUtils.flatten(doubleAndBoolean);
         System.out.println(result1);
 
@@ -71,6 +77,8 @@ public class SimpleUtils {
         IntegerandDouble.put(40, 4.14);
         IntegerandDouble.put(50, 5.14);
         IntegerandDouble.put(60, 6.14);
+        System.out.println();
+        System.out.println(IntegerandDouble);
         List<String> result2 = SimpleUtils.flatten(IntegerandDouble);
         System.out.println(result2);
 
@@ -81,6 +89,8 @@ public class SimpleUtils {
         StringandBoolean.put("kelly", false);
         StringandBoolean.put("chloe", true);
         StringandBoolean.put("robin", false);
+        System.out.println();
+        System.out.println(StringandBoolean);
         List<String> result3 = SimpleUtils.flatten(StringandBoolean);
         System.out.println(result3);
 
@@ -92,6 +102,8 @@ public class SimpleUtils {
         StringandString.put("chloe", "c");
         StringandString.put("robin", "r");
         StringandString.put("barney", "d");
+        System.out.println();
+        System.out.println(StringandString);
         List<String> result4 = SimpleUtils.flatten(StringandString);
         System.out.println(result4);
     }
