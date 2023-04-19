@@ -15,7 +15,7 @@ public class SimpleUtils {
      */
     public static <T extends Comparable<T>> T least(Collection<T> items, boolean from_start) {
         return items.stream()
-                .reduce((element1, element2) -> from_start == true ?
+                .reduce((element1, element2) -> from_start ?
                           element1.compareTo(element2) < 0  ? element1 : element2   //condition one (if)
                         : element1.compareTo(element2) <= 0 ? element1 : element2) //condition two (else)
                 .orElseThrow(() -> new IllegalArgumentException("Collection is empty."));
@@ -70,41 +70,41 @@ public class SimpleUtils {
         List<String> result1 = SimpleUtils.flatten(doubleAndBoolean);
         System.out.println(result1);
 
-        Map<Integer, Double> IntegerandDouble = new HashMap<>();
-        IntegerandDouble.put(10, 1.14);
-        IntegerandDouble.put(20, 2.14);
-        IntegerandDouble.put(30, 3.14);
-        IntegerandDouble.put(40, 4.14);
-        IntegerandDouble.put(50, 5.14);
-        IntegerandDouble.put(60, 6.14);
+        Map<Integer, Double> map = new HashMap<>();
+        map.put(10, 1.14);
+        map.put(20, 2.14);
+        map.put(30, 3.14);
+        map.put(40, 4.14);
+        map.put(50, 5.14);
+        map.put(60, 6.14);
         System.out.println();
-        System.out.println(IntegerandDouble);
-        List<String> result2 = SimpleUtils.flatten(IntegerandDouble);
+        System.out.println(map);
+        List<String> result2 = SimpleUtils.flatten(map);
         System.out.println(result2);
 
-        Map<String, Boolean> StringandBoolean = new HashMap<>();
-        StringandBoolean.put("ABC", true);
-        StringandBoolean.put("bob", false);
-        StringandBoolean.put("tanmay", true);
-        StringandBoolean.put("kelly", false);
-        StringandBoolean.put("chloe", true);
-        StringandBoolean.put("robin", false);
+        Map<String, Boolean> map2 = new HashMap<>();
+        map2.put("ABC", true);
+        map2.put("bob", false);
+        map2.put("tanmay", true);
+        map2.put("kelly", false);
+        map2.put("chloe", true);
+        map2.put("robin", false);
         System.out.println();
-        System.out.println(StringandBoolean);
-        List<String> result3 = SimpleUtils.flatten(StringandBoolean);
+        System.out.println(map2);
+        List<String> result3 = SimpleUtils.flatten(map2);
         System.out.println(result3);
 
-        Map<String, String> StringandString = new HashMap<>();
-        StringandString.put("ABC", "a");
-        StringandString.put("bob", "b");
-        StringandString.put("tanmay", "t");
-        StringandString.put("kelly", "k");
-        StringandString.put("chloe", "c");
-        StringandString.put("robin", "r");
-        StringandString.put("barney", "d");
+        Map<String, String> k = new HashMap<>();
+        k.put("ABC", "a");
+        k.put("bob", "b");
+        k.put("tanmay", "t");
+        k.put("kelly", "k");
+        k.put("chloe", "c");
+        k.put("robin", "r");
+        k.put("barney", "d");
         System.out.println();
-        System.out.println(StringandString);
-        List<String> result4 = SimpleUtils.flatten(StringandString);
+        System.out.println(k);
+        List<String> result4 = SimpleUtils.flatten(k);
         System.out.println(result4);
     }
 }

@@ -1,11 +1,25 @@
 import java.util.List;
-import java.util.function.BiFunction;
 import java.util.Arrays;
+import java.util.function.BiFunction;
 
 public class HigherOrderUtils {
-    public static interface NamedBiFunction<X,Y,Z> extends BiFunction<X,Y,Z> {
+    public interface NamedBiFunction<X,Y,Z> extends BiFunction<X,Y,Z> {
         String name();
     }
+
+    /*
+    * First, write a static nested interface in HigherOrderUtils called NamedBiFunction. This interface must (15)
+    * extend the interface java.util.Function.BiFunction. The interface should just have one additional
+    * method declaration: String name();, i.e., a class implementing this interface must provide a “name”
+    * for every instance of that class. Then, create public static NamedBiFunction instances as follows:
+    * (a) add, with the name “plus”, to perform addition of two Doubles.
+    * (b) subtract, with the name “minus”, to subtract the second Double from the first.
+    * (c) multiply, with the name “mult”, to perform multiplication of two Doubles.
+    (d) divide, with the name “div”, to divide the first Double by the second. This operation should
+    throw a java.lang.ArithmeticException if there is a division by zero being attempted.
+    * */
+
+    //add
     public static NamedBiFunction<Double, Double, Double> add = new NamedBiFunction<>() {
         @Override
         public Double apply(Double a, Double b) {
@@ -17,6 +31,8 @@ public class HigherOrderUtils {
             return "plus";
         }
     };
+
+    //subtract
     public static NamedBiFunction<Double, Double, Double> subtract = new NamedBiFunction<>() {
         @Override
         public Double apply(Double a, Double b) {
@@ -28,6 +44,8 @@ public class HigherOrderUtils {
             return "minus";
         }
     };
+
+    //multiply
     public static NamedBiFunction<Double, Double, Double> multiply = new NamedBiFunction<>() {
         @Override
         public Double apply(Double a, Double b) {
@@ -39,12 +57,15 @@ public class HigherOrderUtils {
             return "mult";
         }
     };
+
+    //divide
     public static NamedBiFunction<Double, Double, Double> divide = new NamedBiFunction<>() {
         @Override
         public String name() {
             return "div";
         }
 
+        //error checking for division by 0 - make sure to include
         @Override
         public Double apply(Double a, Double b) {
             if (b == 0) {
@@ -78,7 +99,7 @@ public class HigherOrderUtils {
      * elements do not match up as required.
      */
     public static <T> T zip(List<T> args, List<? extends BiFunction<T, T, T>> bifunctions){
-        if (args.size() != bifunctions.size() + 1) {
+        if (args.size() != bifunctions.size() + 1) { //args have to be one more than the number of functions to apply
             throw new IllegalArgumentException("Number of Args or BiFunctions Don't Match");
         }
         T result = args.get(0);
@@ -93,8 +114,8 @@ public class HigherOrderUtils {
     public static void main(String... args) {
 
         System.out.println("BiFunction Tests:");
-        double a = 9;
-        double b = 9;
+        double a = 0;
+        double b = 10;
         System.out.println("A Value: " + a);
         System.out.println("B Value: " + b);
         System.out.println("Add Test (with name):      " + add.name() + "     " +  add.apply(a,b));
