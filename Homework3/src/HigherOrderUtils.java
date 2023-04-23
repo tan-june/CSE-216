@@ -107,14 +107,13 @@ public class HigherOrderUtils {
             result = bifunctions.get(i).apply(result, args.get(i + 1));
             args.set(i + 1, result);
         }
-        return result;
+        return args.get(args.size() - 1);
     }
-
 
     public static void main(String... args) {
 
         System.out.println("BiFunction Tests:");
-        double a = 0;
+        double a = 110;
         double b = 10;
         System.out.println("A Value: " + a);
         System.out.println("B Value: " + b);
