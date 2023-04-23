@@ -23,8 +23,17 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
 
     @Override
     public Function<T, T> inverseOf(Function<T, T> t) {
-        return t.andThen(t).andThen(t);
+        return new Function<T, T>() {
+            @Override
+            public T apply(T input) {
+                return set.stream()
+                        .filter(output -> t.apply(output).equals(input))
+                        .findFirst()
+                        .orElseThrow(IllegalArgumentException::new);
+            }
+        };
     }
+
 
     public static <T> Set<Function<T, T>> bijectionsOf(Set<T> domain) {
         Set<Function<T, T>> bijections = new HashSet<>();
@@ -52,21 +61,20 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
             return result;
         }
 
-        T first = list.get(0);
-        List<T> rest = list.subList(1, list.size());
-        List<List<T>> permutations = permutations(rest);
         List<List<T>> result = new ArrayList<>();
-
-        for (List<T> permutation : permutations) {
-            for (int i = 0; i <= permutation.size(); i++) {
-                List<T> newPermutation = new ArrayList<>(permutation);
-                newPermutation.add(i, first);
-                result.add(newPermutation);
+        for (int i = 0; i < list.size(); i++) {
+            T element = list.get(i);
+            List<T> rest = new ArrayList<>(list.subList(0, i));
+            rest.addAll(list.subList(i + 1, list.size()));
+            List<List<T>> permutations = permutations(rest);
+            for (List<T> permutation : permutations) {
+                permutation.add(0, element);
+                result.add(permutation);
             }
         }
-
         return result;
     }
+
 
     public static <T> Set<Function<T, T>> bijectionGroup(Set<T> domain) {
         List<T> list = new ArrayList<>(domain);
@@ -95,13 +103,26 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
     public static void main(String... args) {
 
         Set<Integer> a_few = Stream.of(1, 2, 3).collect(Collectors.toSet());
+        Set<Integer> a_few1 = Stream.of(10,40,60, 80, 90, 100, 50, 1000).collect(Collectors.toSet());
+        Set<Integer> a_few2 = Stream.of(10, 100, 50, 1000).collect(Collectors.toSet());
         System.out.println();
         System.out.println("Bijections Of Test:");
+        System.out.println();
         Set<Function<Integer, Integer>> bijections = bijectionsOf(a_few);
+        System.out.println("Bijections 0 Size:"+ bijections.size());
         bijections.forEach(aBijection -> {
             a_few.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)));
             System.out.println();
         });
+
+        System.out.println();
+        Set<Function<Integer, Integer>> bijections1 = bijectionsOf(a_few2);
+        System.out.println("Bijections 1 Size:"+ bijections1.size());
+        bijections1.forEach(aBijection -> {
+            a_few2.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)));
+            System.out.println();
+        });
+
 
 
         System.out.println();
@@ -119,6 +140,36 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
             System.out.println();
         });
 
+        System.out.println();
+
+        BijectionGroup<Integer> g11 = new BijectionGroup<>(a_few1);
+        Function<Integer, Integer> f11 = g11.bijectionGroup(a_few1).stream().findFirst().get();
+        Function<Integer, Integer> f21 = g11.inverseOf(f11);
+        Function<Integer, Integer> id1 = g11.identity();
+        Set<Function<Integer, Integer>> functionSet1 = new LinkedHashSet<>();
+        functionSet1.add(f11);
+        functionSet1.add(f21);
+        functionSet1.add(id1);
+        functionSet1.forEach(aBijection -> {
+            a_few1.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)));
+            System.out.println();
+        });
+
+        BijectionGroup<Integer> g12 = new BijectionGroup<>(a_few2);
+        Function<Integer, Integer> f12 = g12.bijectionGroup(a_few2).stream().findFirst().get();
+        Function<Integer, Integer> f22 = g12.inverseOf(f12);
+        Function<Integer, Integer> id2 = g12.identity();
+
+        Set<Function<Integer, Integer>> functionSet2 = new LinkedHashSet<>();
+        functionSet2.add(f12);
+        functionSet2.add(f22);
+        functionSet2.add(id2);
+
+        System.out.println();
+        functionSet2.forEach(aBijection -> {
+            a_few2.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)));
+            System.out.println();
+        });
 
     }
 

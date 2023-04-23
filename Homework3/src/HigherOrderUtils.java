@@ -141,6 +141,10 @@ public class HigherOrderUtils {
         List<NamedBiFunction<Double, Double, Double>> bfs3 = Arrays.asList(add, divide, subtract, multiply);
         System.out.println(zip(args3, bfs3));
 
+        List<Double> args4 = Arrays.asList(2.0, 3.0, 1.0, 6.0);
+        List<NamedBiFunction<Double, Double, Double>> bfs4 = Arrays.asList(add, subtract, multiply);
+        System.out.println(zip(args4, bfs4));
+
         try {
             List<Double> numbers1 = Arrays.asList(-0.5, -2d, -3d, 1d, 4d);
             List<NamedBiFunction<Double, Double, Double>> operations1 = Arrays.asList(multiply,multiply,multiply);
