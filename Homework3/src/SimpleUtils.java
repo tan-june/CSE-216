@@ -18,7 +18,7 @@ public class SimpleUtils {
                 .reduce((element1, element2) -> from_start ?
                           element1.compareTo(element2) < 0  ? element1 : element2   //condition one (if)
                         : element1.compareTo(element2) <= 0 ? element1 : element2) //condition two (else)
-                .orElseThrow(() -> new IllegalArgumentException("Collection is empty."));
+                .orElseThrow(null);
     }
 
     /**

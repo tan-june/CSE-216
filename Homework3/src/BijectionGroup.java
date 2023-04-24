@@ -3,17 +3,17 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class BijectionGroup<T> implements Group<Function<T, T>> {
+public class BijectionGroup<T> implements Group<Function<T,T>> {
 
-    private Set<T> set;
+    private final Set<T> domainSet;
 
     public BijectionGroup(Set<T> set) {
-        this.set = set;
+        this.domainSet = set;
     }
 
     @Override
-    public Function<T, T> binaryOperation(Function<T, T> one, Function<T, T> other) {
-        return one.compose(other);
+    public Function<T, T> binaryOperation(Function<T, T> f1, Function<T, T> f2) {
+        return f1.compose(f2);
     }
 
     @Override
@@ -22,36 +22,27 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
     }
 
     @Override
-    public Function<T, T> inverseOf(Function<T, T> t) {
-        return new Function<T, T>() {
-            @Override
-            public T apply(T input) {
-                return set.stream()
-                        .filter(output -> t.apply(output).equals(input))
-                        .findFirst()
-                        .orElseThrow(IllegalArgumentException::new);
-            }
-        };
+    public Function<T, T> inverseOf(Function<T,T> inverseFunction) {
+        return input -> domainSet.stream()
+                .filter(output -> inverseFunction.apply(output).equals(input))
+                .findFirst()
+                .orElseThrow(null);
     }
 
-
     public static <T> Set<Function<T, T>> bijectionsOf(Set<T> domain) {
-        Set<Function<T, T>> bijections = new HashSet<>();
+        Set<Function<T, T>> bijectionsOfSet = new HashSet<>();
+
         List<T> elements = new ArrayList<>(domain);
+        List<List<T>> listsOfPermutation = permutations(elements);
 
-        List<List<T>> permutations = permutations(elements);
+        for (List<T> permutation : listsOfPermutation) {
+            Function<T, T> bijection;
+            bijection = input -> elements.get(permutation.indexOf(input));
 
-        for (List<T> permutation : permutations) {
-            Function<T, T> bijection = new Function<T, T>() {
-                public T apply(T input) {
-                    int index = permutation.indexOf(input);
-                    return elements.get(index);
-                }
-            };
-            bijections.add(bijection);
+            bijectionsOfSet.add(bijection);
         }
 
-        return bijections;
+        return bijectionsOfSet;
     }
 
     public static <T> List<List<T>> permutations(List<T> list) {
@@ -60,51 +51,31 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
             result.add(new ArrayList<>());
             return result;
         }
-
-        List<List<T>> result = new ArrayList<>();
+        List<List<T>> allPermutations = new ArrayList<>();
         for (int i = 0; i < list.size(); i++) {
             T element = list.get(i);
-            List<T> rest = new ArrayList<>(list.subList(0, i));
-            rest.addAll(list.subList(i + 1, list.size()));
-            List<List<T>> permutations = permutations(rest);
-            for (List<T> permutation : permutations) {
-                permutation.add(0, element);
-                result.add(permutation);
+            List<T> subList = new ArrayList<>(list.subList(0, i));
+            subList.addAll(list.subList(i + 1, list.size()));
+            List<List<T>> permutations = permutations(subList);
+
+            for (List<T> t : permutations) {
+                t.add(element);
+                allPermutations.add(t);
             }
         }
-        return result;
+        return allPermutations;
     }
 
-
-    public static <T> Set<Function<T, T>> bijectionGroup(Set<T> domain) {
-        List<T> list = new ArrayList<>(domain);
-        List<List<T>> permutations = permutations(list);
-
-        Set<Function<T, T>> bijections = new HashSet<>();
-        for (List<T> permutation : permutations) {
-            bijections.add(new Function<T, T>() {
-                @Override
-                public T apply(T t) {
-                    int index = list.indexOf(t);
-                    if (index >= 0) {
-                        return permutation.get(index);
-                    }
-                    return t;
-                }
-            });
-        }
-
-        return bijections;
+    public static <T> Group<Function<T,T>> bijectionGroup(Set<T> domainSet) {
+        return new BijectionGroup<>(domainSet);
     }
-
-
-
 
     public static void main(String... args) {
 
         Set<Integer> a_few = Stream.of(1, 2, 3).collect(Collectors.toSet());
-        Set<Integer> a_few1 = Stream.of(10,40,60, 80, 90, 100, 50, 1000).collect(Collectors.toSet());
-        Set<Integer> a_few2 = Stream.of(10, 100, 50, 1000).collect(Collectors.toSet());
+        Set<Integer> a_few1 = Stream.of(10,40,60, 80, 90, 100).collect(Collectors.toSet());
+        Set<Integer> a_few2 = Stream.of(10, 23, 72, 50, 1000).collect(Collectors.toSet());
+
         System.out.println();
         System.out.println("Bijections Of Test:");
         System.out.println();
@@ -112,6 +83,14 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
         System.out.println("Bijections 0 Size:"+ bijections.size());
         bijections.forEach(aBijection -> {
             a_few.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)));
+            System.out.println();
+        });
+
+        System.out.println();
+        Set<Function<Integer, Integer>> bijections3 = bijectionsOf(a_few1);
+        System.out.println("Bijections 1 Size:"+ bijections3.size());
+        bijections3.forEach(aBijection -> {
+            a_few1.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)));
             System.out.println();
         });
 
@@ -124,11 +103,11 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
         });
 
 
-
         System.out.println();
         System.out.println("Bijection Group Tests:");
-        BijectionGroup<Integer> g = new BijectionGroup<>(a_few);
-        Function<Integer, Integer> f1 = g.bijectionGroup(a_few).stream().findFirst().get();
+
+        Group<Function<Integer,Integer>> g = bijectionGroup(a_few);
+        Function<Integer, Integer> f1 = bijectionsOf(a_few).stream().findFirst().get();
         Function<Integer, Integer> f2 = g.inverseOf(f1);
         Function<Integer, Integer> id = g.identity();
         Set<Function<Integer, Integer>> functionSet = new LinkedHashSet<>();
@@ -141,9 +120,8 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
         });
 
         System.out.println();
-
-        BijectionGroup<Integer> g11 = new BijectionGroup<>(a_few1);
-        Function<Integer, Integer> f11 = g11.bijectionGroup(a_few1).stream().findFirst().get();
+        Group<Function<Integer,Integer>> g11 = bijectionGroup(a_few1);
+        Function<Integer, Integer> f11 = bijectionsOf(a_few1).stream().findFirst().get();
         Function<Integer, Integer> f21 = g11.inverseOf(f11);
         Function<Integer, Integer> id1 = g11.identity();
         Set<Function<Integer, Integer>> functionSet1 = new LinkedHashSet<>();
@@ -155,8 +133,8 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
             System.out.println();
         });
 
-        BijectionGroup<Integer> g12 = new BijectionGroup<>(a_few2);
-        Function<Integer, Integer> f12 = g12.bijectionGroup(a_few2).stream().findFirst().get();
+        Group<Function<Integer,Integer>> g12 = bijectionGroup(a_few2);
+        Function<Integer, Integer> f12 = bijectionsOf(a_few2).stream().findFirst().get();
         Function<Integer, Integer> f22 = g12.inverseOf(f12);
         Function<Integer, Integer> id2 = g12.identity();
 
@@ -167,10 +145,12 @@ public class BijectionGroup<T> implements Group<Function<T, T>> {
 
         System.out.println();
         functionSet2.forEach(aBijection -> {
-            a_few2.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)));
+            a_few2.forEach(n -> System.out.printf("%d --> %d; ", n, aBijection.apply(n)
+            ));
             System.out.println();
         });
 
     }
-
 }
+
+

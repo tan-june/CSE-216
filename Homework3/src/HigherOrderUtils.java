@@ -6,7 +6,6 @@ public class HigherOrderUtils {
     public interface NamedBiFunction<X,Y,Z> extends BiFunction<X,Y,Z> {
         String name();
     }
-
     /*
     * First, write a static nested interface in HigherOrderUtils called NamedBiFunction. This interface must (15)
     * extend the interface java.util.Function.BiFunction. The interface should just have one additional
@@ -68,7 +67,7 @@ public class HigherOrderUtils {
         //error checking for division by 0 - make sure to include
         @Override
         public Double apply(Double a, Double b) {
-            if (b == 0) {
+            if (Double.compare(b, 0) == 0) {
                 throw new ArithmeticException("Division by Zero - Error");
             }
             return a / b;
@@ -111,16 +110,30 @@ public class HigherOrderUtils {
     }
 
     public static void main(String... args) {
-
         System.out.println("BiFunction Tests:");
+        double no1 = 32;
+        double no2 = 20;
+        System.out.println("A Value: " + no1);
+        System.out.println("B Value: " + no2);
+        System.out.println("Add Test (with name):      " + add.name() + "     " +  add.apply(no1,no2));
+        System.out.println("Subtract Test (with name): " + subtract.name() + "    " + subtract.apply(no1,no2));
+        System.out.println("Multiply Test (with name): " + multiply.name() + "     " + multiply.apply(no1,no2));
+        System.out.println("Divide Test (with name):   " + divide.name() + "      " + divide.apply(no1,no2));
+        try {
+            System.out.println("Divide Test (divide by 0): " + divide.name() + "      " + divide.apply(no1, 0.0));
+        } catch (ArithmeticException e) {
+            System.out.println("Caught ArithmeticException: " + e.getMessage());
+        }
+        System.out.println();
+
         double a = 110;
         double b = 10;
-        System.out.println("A Value: " + a);
-        System.out.println("B Value: " + b);
-        System.out.println("Add Test (with name):      " + add.name() + "     " +  add.apply(a,b));
-        System.out.println("Subtract Test (with name): " + subtract.name() + "    " + subtract.apply(a,b));
-        System.out.println("Multiply Test (with name): " + multiply.name() + "     " + multiply.apply(a,b));
-        System.out.println("Divide Test (with name):   " + divide.name() + "      " + divide.apply(a,b));
+        System.out.println("A1 Value: " + a);
+        System.out.println("B1 Value: " + b);
+        System.out.println("Add1 Test (with name):      " + add.name() + "     " +  add.apply(a,b));
+        System.out.println("Subtract1 Test (with name): " + subtract.name() + "    " + subtract.apply(a,b));
+        System.out.println("Multiply1 Test (with name): " + multiply.name() + "     " + multiply.apply(a,b));
+        System.out.println("Divide1 Test (with name):   " + divide.name() + "      " + divide.apply(a,b));
         try {
             System.out.println("Divide Test (divide by 0): " + divide.name() + "      " + divide.apply(a, 0.0));
         } catch (ArithmeticException e) {
@@ -160,7 +173,6 @@ public class HigherOrderUtils {
         List<NamedBiFunction<Double, Double, Double>> operations = Arrays.asList(add,multiply,add,divide);
         Double d = zip(numbers, operations); // expected correct value: 1.125
         System.out.println(d);
-
         // different use case, not with NamedBiFunction objects
         List<String> strings = Arrays.asList("a","n","t");
         // note the syntax of this lambda expression
