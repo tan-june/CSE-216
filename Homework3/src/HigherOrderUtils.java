@@ -110,74 +110,74 @@ public class HigherOrderUtils {
     }
 
     public static void main(String... args) {
-        System.out.println("BiFunction Tests:");
-        double no1 = 32;
-        double no2 = 20;
-        System.out.println("A Value: " + no1);
-        System.out.println("B Value: " + no2);
-        System.out.println("Add Test (with name):      " + add.name() + "     " +  add.apply(no1,no2));
-        System.out.println("Subtract Test (with name): " + subtract.name() + "    " + subtract.apply(no1,no2));
-        System.out.println("Multiply Test (with name): " + multiply.name() + "     " + multiply.apply(no1,no2));
-        System.out.println("Divide Test (with name):   " + divide.name() + "      " + divide.apply(no1,no2));
-        try {
-            System.out.println("Divide Test (divide by 0): " + divide.name() + "      " + divide.apply(no1, 0.0));
-        } catch (ArithmeticException e) {
-            System.out.println("Caught ArithmeticException: " + e.getMessage());
-        }
-        System.out.println();
-
-        double a = 110;
-        double b = 10;
-        System.out.println("A1 Value: " + a);
-        System.out.println("B1 Value: " + b);
-        System.out.println("Add1 Test (with name):      " + add.name() + "     " +  add.apply(a,b));
-        System.out.println("Subtract1 Test (with name): " + subtract.name() + "    " + subtract.apply(a,b));
-        System.out.println("Multiply1 Test (with name): " + multiply.name() + "     " + multiply.apply(a,b));
-        System.out.println("Divide1 Test (with name):   " + divide.name() + "      " + divide.apply(a,b));
-        try {
-            System.out.println("Divide Test (divide by 0): " + divide.name() + "      " + divide.apply(a, 0.0));
-        } catch (ArithmeticException e) {
-            System.out.println("Caught ArithmeticException: " + e.getMessage());
-        }
-        System.out.println();
-
-        System.out.println("Zip Tests:");
-        List<Double> args1 = Arrays.asList(2.0, 3.0, 4.0);
-        List<NamedBiFunction<Double, Double, Double>> bfs1 = Arrays.asList(subtract, multiply);
-        System.out.println(zip(args1, bfs1));
-
-        List<Double> args2 = Arrays.asList(4.0, 2.0, 1.0, 3.0);
-        List<NamedBiFunction<Double, Double, Double>> bfs2 = Arrays.asList(multiply, divide, add);
-        System.out.println(zip(args2, bfs2));
-
-        List<Double> args3 = Arrays.asList(5.0, 2.0, 3.0, 1.0, 6.0);
-        List<NamedBiFunction<Double, Double, Double>> bfs3 = Arrays.asList(add, divide, subtract, multiply);
-        System.out.println(zip(args3, bfs3));
-
-        List<Double> args4 = Arrays.asList(2.0, 3.0, 1.0, 6.0);
-        List<NamedBiFunction<Double, Double, Double>> bfs4 = Arrays.asList(add, subtract, multiply);
-        System.out.println(zip(args4, bfs4));
-
-        try {
-            List<Double> numbers1 = Arrays.asList(-0.5, -2d, -3d, 1d, 4d);
-            List<NamedBiFunction<Double, Double, Double>> operations1 = Arrays.asList(multiply,multiply,multiply);
-            Double d1 = zip(numbers1, operations1);
-            System.out.println(d1);
-        } catch (IllegalArgumentException ex) {
-            System.out.println("An IllegalArgumentException was thrown: " + ex.getMessage());
-        }
-
-        System.out.println();
-        System.out.println("Banarjee Tests:");
-        List<Double> numbers = Arrays.asList(-0.5, 2d, 3d, 0d, 4d); // documentation example
-        List<NamedBiFunction<Double, Double, Double>> operations = Arrays.asList(add,multiply,add,divide);
-        Double d = zip(numbers, operations); // expected correct value: 1.125
-        System.out.println(d);
-        // different use case, not with NamedBiFunction objects
-        List<String> strings = Arrays.asList("a","n","t");
-        // note the syntax of this lambda expression
-        BiFunction<String, String, String> concat = (s, t) -> s + t;
-        String s = zip(strings, Arrays.asList(concat, concat)); // expected correct value: "ant"
-        System.out.println(s);
+//        System.out.println("BiFunction Tests:");
+//        double no1 = 32;
+//        double no2 = 20;
+//        System.out.println("A Value: " + no1);
+//        System.out.println("B Value: " + no2);
+//        System.out.println("Add Test (with name):      " + add.name() + "     " +  add.apply(no1,no2));
+//        System.out.println("Subtract Test (with name): " + subtract.name() + "    " + subtract.apply(no1,no2));
+//        System.out.println("Multiply Test (with name): " + multiply.name() + "     " + multiply.apply(no1,no2));
+//        System.out.println("Divide Test (with name):   " + divide.name() + "      " + divide.apply(no1,no2));
+//        try {
+//            System.out.println("Divide Test (divide by 0): " + divide.name() + "      " + divide.apply(no1, 0.0));
+//        } catch (ArithmeticException e) {
+//            System.out.println("Caught ArithmeticException: " + e.getMessage());
+//        }
+//        System.out.println();
+//
+//        double a = 110;
+//        double b = 10;
+//        System.out.println("A1 Value: " + a);
+//        System.out.println("B1 Value: " + b);
+//        System.out.println("Add1 Test (with name):      " + add.name() + "     " +  add.apply(a,b));
+//        System.out.println("Subtract1 Test (with name): " + subtract.name() + "    " + subtract.apply(a,b));
+//        System.out.println("Multiply1 Test (with name): " + multiply.name() + "     " + multiply.apply(a,b));
+//        System.out.println("Divide1 Test (with name):   " + divide.name() + "      " + divide.apply(a,b));
+//        try {
+//            System.out.println("Divide Test (divide by 0): " + divide.name() + "      " + divide.apply(a, 0.0));
+//        } catch (ArithmeticException e) {
+//            System.out.println("Caught ArithmeticException: " + e.getMessage());
+//        }
+//        System.out.println();
+//
+//        System.out.println("Zip Tests:");
+//        List<Double> args1 = Arrays.asList(2.0, 3.0, 4.0);
+//        List<NamedBiFunction<Double, Double, Double>> bfs1 = Arrays.asList(subtract, multiply);
+//        System.out.println(zip(args1, bfs1));
+//
+//        List<Double> args2 = Arrays.asList(4.0, 2.0, 1.0, 3.0);
+//        List<NamedBiFunction<Double, Double, Double>> bfs2 = Arrays.asList(multiply, divide, add);
+//        System.out.println(zip(args2, bfs2));
+//
+//        List<Double> args3 = Arrays.asList(5.0, 2.0, 3.0, 1.0, 6.0);
+//        List<NamedBiFunction<Double, Double, Double>> bfs3 = Arrays.asList(add, divide, subtract, multiply);
+//        System.out.println(zip(args3, bfs3));
+//
+//        List<Double> args4 = Arrays.asList(2.0, 3.0, 1.0, 6.0);
+//        List<NamedBiFunction<Double, Double, Double>> bfs4 = Arrays.asList(add, subtract, multiply);
+//        System.out.println(zip(args4, bfs4));
+//
+//        try {
+//            List<Double> numbers1 = Arrays.asList(-0.5, -2d, -3d, 1d, 4d);
+//            List<NamedBiFunction<Double, Double, Double>> operations1 = Arrays.asList(multiply,multiply,multiply);
+//            Double d1 = zip(numbers1, operations1);
+//            System.out.println(d1);
+//        } catch (IllegalArgumentException ex) {
+//            System.out.println("An IllegalArgumentException was thrown: " + ex.getMessage());
+//        }
+//
+//        System.out.println();
+//        System.out.println("Banarjee Tests:");
+//        List<Double> numbers = Arrays.asList(-0.5, 2d, 3d, 0d, 4d); // documentation example
+//        List<NamedBiFunction<Double, Double, Double>> operations = Arrays.asList(add,multiply,add,divide);
+//        Double d = zip(numbers, operations); // expected correct value: 1.125
+//        System.out.println(d);
+//        // different use case, not with NamedBiFunction objects
+//        List<String> strings = Arrays.asList("a","n","t");
+//        // note the syntax of this lambda expression
+//        BiFunction<String, String, String> concat = (s, t) -> s + t;
+//        String s = zip(strings, Arrays.asList(concat, concat)); // expected correct value: "ant"
+//        System.out.println(s);
     }
 }
