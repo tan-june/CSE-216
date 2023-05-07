@@ -1,6 +1,14 @@
 class Calculator:
-    def __init__(self, num_str= "Please enter a number: ", operation_str="Enter an orithmetic operator: ", continue_str="Would you like to continue? ", end_msg="Bye!"):
-        self.num_str = num_str
+
+    #init takes (not required for any)
+    #first number string
+    #operator string
+    #second number string
+    #continue string
+    #end string
+    def __init__(self, num_str1= "Enter first number: ", operation_str="Enter the operator: ", num_str2= "Enter second number: ", continue_str="Would you like to continue? ", end_msg="Bye!"):
+        self.num_str1 = num_str1
+        self.num_str2 = num_str2
         self.operation_str = operation_str
         self.continue_str = continue_str
         self.end_msg = end_msg
@@ -38,9 +46,9 @@ class Calculator:
             print("Invalid response. Please enter [Y|N].")
 
     def calculate(self):
-        self.operand1 = self.get_number(self.num_str)
+        self.operand1 = self.get_number(self.num_str1)
         self.operator = self.get_operator(self.operation_str)
-        self.operand2 = self.get_number(self.num_str)
+        self.operand2 = self.get_number(self.num_str2)
         
         if self.operator == '+':
             result = self.operand1 + self.operand2
