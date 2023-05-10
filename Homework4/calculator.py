@@ -1,22 +1,18 @@
 class Calculator:
 
-    #init takes (not required for any)
-    #first number string
-    #operator string
-    #second number string
-    #continue string
-    #end string
-    def __init__(self, num_str1= "Enter first number: ", operation_str="Enter the operator: ", num_str2= "Enter second number: ", continue_str="Would you like to continue? ", end_msg="Bye!"):
-        self.num_str1 = num_str1
-        self.num_str2 = num_str2
-        self.operation_str = operation_str
-        self.continue_str = continue_str
-        self.end_msg = end_msg
-        self.operand1 = None
-        self.operand2 = None
-        self.operator = None
+    def __init__(self, num_str1="Enter first number: ", operation_str="Enter the operator: ",
+                 num_str2="Enter second number: ", continue_str="Would you like to continue? ", end_msg="Bye!"):
+        self.__num_str1 = num_str1
+        self.__num_str2 = num_str2
+        self.__operation_str = operation_str
+        self.__continue_str = continue_str
+        self.__end_msg = end_msg
+        self.__operand1 = None
+        self.__operand2 = None
+        self.__operator = None
 
-    def get_number(self, string):
+    @staticmethod
+    def get_number(string):
         while True:
             try:
                 arg_input = input(string)
@@ -28,15 +24,17 @@ class Calculator:
             except ValueError:
                 print("Invalid input. Please enter an integer.")
 
-    def get_operator(self, string):
+    @staticmethod
+    def get_operator(string):
         while True:
             operator = input(string).strip()
-            if operator in ['/', '*','-', '+']:
+            if operator in ['/', '*', '-', '+']:
                 return operator
             else:
                 print("You may only enter one of the following operators: + - * /")
 
-    def halt(self, string):
+    @staticmethod
+    def halt(string):
         while True:
             response = input(string).strip()
             if response in ['Y', 'y', 'YES', 'Yes', 'yes']:
@@ -45,23 +43,24 @@ class Calculator:
                 return False
             print("Invalid response. Please enter [Y|N].")
 
+    @staticmethod
     def calculate(self):
-        self.operand1 = self.get_number(self.num_str1)
-        self.operator = self.get_operator(self.operation_str)
-        self.operand2 = self.get_number(self.num_str2)
-        
-        if self.operator == '+':
-            result = self.operand1 + self.operand2
-        elif self.operator == '-':
-            result = self.operand1 - self.operand2
-        elif self.operator == '*':
-            result = self.operand1 * self.operand2
-        elif self.operator == '/':
-            if self.operand2 == 0:
+        self.__operand1 = self.get_number(self.__num_str1)
+        self.__operator = self.get_operator(self.__operation_str)
+        self.__operand2 = self.get_number(self.__num_str2)
+
+        if self.__operator == '+':
+            result = self.__operand1 + self.__operand2
+        elif self.__operator == '-':
+            result = self.__operand1 - self.__operand2
+        elif self.__operator == '*':
+            result = self.__operand1 * self.__operand2
+        elif self.__operator == '/':
+            if self.__operand2 == 0:
                 print("Divide by Zero Error")
                 return None
             else:
-                result = self.operand1 / self.operand2
+                result = self.__operand1 / self.__operand2
         else:
             print("Invalid operation.")
             return None
@@ -73,11 +72,12 @@ class Calculator:
         count = 0
         while True:
             count = count + 1
-            result = self.calculate()
+            result = self.calculate(self)
             calculation_array.append(result)
-            print(f"{int(self.operand1)} {self.operator} {int(self.operand2)} = {result}")
-            if not self.halt(self.continue_str):
+            print(f"{int(self.__operand1)} {self.__operator} {int(self.__operand2)} = {result}")
+            if not self.halt(self.__continue_str):
                 break
-        print(f"You carried out {count} calculations. The results were: {'; '.join(str(result) for result in calculation_array)}")
-        if self.end_msg:
-            print(self.end_msg)
+        print(
+            f"You carried out {count} calculations. The results were: {'; '.join(str(result) for result in calculation_array)}")
+        if self.__end_msg:
+            print(self.__end_msg)
